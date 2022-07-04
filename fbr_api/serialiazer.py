@@ -18,10 +18,27 @@ class AddFRBSerializer(serializers.ModelSerializer):
         model = FBR
         fields = ('title', 'description')
 
+class IsSeenSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FBR
+        fields = ('is_seen',)
+
 class RegisterCnic(serializers.ModelSerializer):
     class Meta:
         model = RegisterUser
         fields = "__all__"
+
+from rest_framework import serializers
+from django.contrib.auth.models import User
+
+class ChangePasswordSerializer(serializers.Serializer):
+    model = User
+
+    """
+    Serializer for password change endpoint.
+    """
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
 
 
 class RegisterSerializer(serializers.ModelSerializer):
