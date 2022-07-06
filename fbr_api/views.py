@@ -5,8 +5,9 @@ from rest_framework.generics import ListAPIView , CreateAPIView ,UpdateAPIView
 from rest_framework import status
 from django.contrib.auth.models import User
 from .models import FBR, RegisterUser
-from .serialiazer import AddFRBSerializer, AllFRBSerializer, ChangePasswordSerializer, GetUserDetailserializer, IsSeenSerializer, RegisterSerializer ,RegisterCnic
+from .serialiazer import AddFRBSerializer, AddCnicSerializer, AllFRBSerializer, ChangePasswordSerializer, GetUserDetailserializer, IsSeenSerializer, RegisterSerializer ,RegisterCnic
 from fbr_api import serialiazer
+
 # Create your views here.
 
 class GetAllFBR(ListAPIView):
@@ -70,6 +71,19 @@ class RegisterUserByFrontend(CreateAPIView):
             data = serializer.errors
             print('Error', data.keys())
         return Response(data)
+
+
+class AddCnic(CreateAPIView):
+    serializer_class = AddCnicSerializer
+    allowed_methods = ('POST',)
+
+    def post(self, request, *args, **kwargs):
+        serializer = AddCnicSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        
+        return Response(serializer.errors )
 
 class AddFBR(CreateAPIView):
     serializer_class = AddFRBSerializer

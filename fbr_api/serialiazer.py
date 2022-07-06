@@ -23,6 +23,11 @@ class IsSeenSerializer(serializers.ModelSerializer):
         model = FBR
         fields = ('is_seen',)
 
+class AddCnicSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RegisterUser
+        fields = ('cnic',)
+
 class RegisterCnic(serializers.ModelSerializer):
     class Meta:
         model = RegisterUser

@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import ChangePasswordView, GetAllFBR, GetByCninFBR, GetById, GetUserDetail ,RegisterUserByFrontend ,AddFBR, UpdateisSeen
+from .views import AddCnic, ChangePasswordView, GetAllFBR, GetByCninFBR, GetById, GetUserDetail ,RegisterUserByFrontend ,AddFBR, UpdateisSeen
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework.authtoken.views import obtain_auth_token
@@ -26,5 +26,6 @@ urlpatterns = [
     path("user_Read_me",GetUserDetail.as_view()),
     path("get_by_id/<str:pk>",GetById.as_view()),
     path("update_password",ChangePasswordView.as_view()),
+    path("add_cnic",AddCnic.as_view()),
     path("is_seen_update/<str:pk>",UpdateisSeen.as_view()),
 ]
