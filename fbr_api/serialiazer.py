@@ -33,6 +33,11 @@ class RegisterCnic(serializers.ModelSerializer):
         model = RegisterUser
         fields = "__all__"
 
+class UserDetail(serializers.ModelSerializer):
+    class Meta:
+        model = RegisterUser
+        fields = '__all__'
+
 from rest_framework import serializers
 from django.contrib.auth.models import User
 
@@ -47,28 +52,21 @@ class ChangePasswordSerializer(serializers.Serializer):
 
 
 class RegisterSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField(validators=[UniqueValidator(
-        queryset=User.objects.all())])
-    password2 = serializers.CharField(write_only=True, required=True)
-
     class Meta:
         model = User
-        fields = ('first_name','last_name','username', 'email', 'password', 'password2',
-                  )
+        fields = ('id', 'username', 'password', 'email', 'first_name', 'last_name')
+        write_only_fields = ('password',)
+        read_only_fields = ('id',)
 
-    def save(self):
-        account = User(
-            email=self.validated_data['email'],
-            username=self.validated_data['username'],
+    def create(self, validated_data):
+        user = User.objects.create(
+            username=validated_data['username'],
+            email=validated_data['email'],
+            first_name=validated_data['first_name'],
+            last_name=validated_data['last_name']
         )
-        password = self.validated_data['password']
-        password2 = self.validated_data['password2']
-        if password != password2:
-            raise serializers.ValidationError(
-                {"password": "Password fields didn't match."})
-        # if User.objects.filter(email__iexact=email).exists():
-        #     raise serializers.ValidationError(
-        #         {"Email": "Email Already Exist."})
-        account.set_password(password)
-        account.save()
-        return account
+
+        user.set_password(validated_data['password'])
+        user.save()
+
+        return user

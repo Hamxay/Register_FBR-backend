@@ -5,7 +5,7 @@ from rest_framework.generics import ListAPIView , CreateAPIView ,UpdateAPIView
 from rest_framework import status
 from django.contrib.auth.models import User
 from .models import FBR, RegisterUser
-from .serialiazer import AddFRBSerializer, AddCnicSerializer, AllFRBSerializer, ChangePasswordSerializer, GetUserDetailserializer, IsSeenSerializer, RegisterSerializer ,RegisterCnic
+from .serialiazer import AddFRBSerializer, AddCnicSerializer, AllFRBSerializer, ChangePasswordSerializer, GetUserDetailserializer, IsSeenSerializer, RegisterSerializer ,RegisterCnic, UserDetail
 from fbr_api import serialiazer
 
 # Create your views here.
@@ -78,7 +78,11 @@ class AddCnic(CreateAPIView):
     allowed_methods = ('POST',)
 
     def post(self, request, *args, **kwargs):
-        serializer = AddCnicSerializer(data=request.data)
+        current_user = request.user.id
+        print(current_user)
+        data = request.data
+        data['user'] = current_user
+        serializer = RegisterCnic(data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -107,11 +111,21 @@ class AddFBR(CreateAPIView):
 
 class GetUserDetail(ListAPIView):
     serializer_class = GetUserDetailserializer
-    def get_queryset(self):
+    def get(self, request):
         user = self.request.user.id
         print(user)
-        queryset = User.objects.filter(id=user)
-        return queryset
+        queryset = RegisterUser.objects.get(user=user)
+        ser = UserDetail(queryset)
+        data = {
+            'id': queryset.id, 
+           'first_name' : queryset.user.first_name,
+           'last_name' : queryset.user.last_name,
+           'username' : queryset.user.username,
+            'email' : queryset.user.email,
+            'cnic': queryset.cnic
+                  
+        }
+        return Response(data)
 
 class UpdateisSeen(UpdateAPIView):
     serializer_class = IsSeenSerializer
