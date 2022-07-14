@@ -30,6 +30,7 @@ class GetByCninFBR(ListAPIView):
             for fbr in queryset:
                 data['title'] = fbr.title
                 data['description'] = fbr.description
+                data['user'] = qs.id
             print(data) 
             l.append(data)
             # ser = GetbyCNICSerializer(qs)
@@ -115,7 +116,6 @@ class GetUserDetail(ListAPIView):
         user = self.request.user.id
         print(user)
         queryset = RegisterUser.objects.get(user=user)
-        ser = UserDetail(queryset)
         data = {
             'id': queryset.id, 
            'first_name' : queryset.user.first_name,
