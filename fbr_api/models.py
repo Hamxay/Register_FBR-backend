@@ -13,7 +13,7 @@ class FBR(models.Model):
     location = models.CharField(max_length=100,blank=True)
     district = models.CharField(max_length=100,blank=True)
     police_station = models.CharField(max_length=100,blank=True)
-    catagory = models.CharField(max_length=100,blank=True)
+    catagory     = models.CharField(max_length=100,blank=True)
     datetime = models.DateTimeField(auto_now_add=True, blank=True)
     mobile_number = models.IntegerField(null=True,blank=True)
     description = models.TextField()
