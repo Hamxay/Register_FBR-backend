@@ -114,7 +114,7 @@ class GetUserDetail(ListAPIView):
     serializer_class = GetUserDetailserializer
     def get(self, request):
         user = self.request.user.id
-        print(user)
+        print(self.request.user)
         queryset = RegisterUser.objects.get(user=user)
         data = {
             'id': queryset.id, 
@@ -122,6 +122,7 @@ class GetUserDetail(ListAPIView):
            'last_name' : queryset.user.last_name,
            'username' : queryset.user.username,
             'email' : queryset.user.email,
+            'superuser' : queryset.user.is_superuser,
             'cnic': queryset.cnic
                   
         }
