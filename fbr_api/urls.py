@@ -29,6 +29,6 @@ urlpatterns = [
     path("add_cnic",AddCnic.as_view()),
     path('login', obtain_auth_token, name="Get Token"),
     path("is_seen_update/<str:pk>",UpdateisSeen.as_view()),
-    path("get_current_fir",GetCurrentUserFIR.as_view()),
+    path("get_current_fir/<str:pk>",GetCurrentUserFIR.as_view()),
     path("get_cnic",CheckCNIC.as_view()),
 ]

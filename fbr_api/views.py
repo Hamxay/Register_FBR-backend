@@ -72,12 +72,12 @@ class GetCurrentUserFIR(ListAPIView):
     serializer_class = AllFRBSerializer
     queryset = FBR.objects.all()
 
-    def get(self, request):
+    def get(self, request, pk):
         try:
             l = []
-            user_id = request.user.id
+            # user_id = request.user.id
             # for i in qs:
-            queryset = FBR.objects.filter(user=user_id)
+            queryset = FBR.objects.filter(user=pk)
             # serializer_class = AllFRBSerializer(queryset)
             print(queryset)
             for fbr in queryset:
@@ -164,16 +164,12 @@ class AddCnic(CreateAPIView):
 class AddFBR(CreateAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
-    serializer_class = AddFRBSerializer
+    serializer_class = AllFRBSerializer
     queryset = FBR.objects.all()
 
     def post(self, request, *args, **kwargs):
-        current_user = request.user.id
-        print(current_user)
-        data = request.data
-        data['user'] = current_user
         try:
-            serializer = AllFRBSerializer(data=data)
+            serializer = AllFRBSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
