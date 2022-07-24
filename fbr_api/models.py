@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 class RegisterUser(models.Model):
     user = models.OneToOneField(User , on_delete=models.CASCADE)
-    cnic = models.CharField(max_length=13 , unique=True)
+    cnic = models.CharField(max_length=13 , unique=True , blank=True)
 
 class FBR(models.Model):
     user = models.ForeignKey(RegisterUser , on_delete=models.CASCADE)
@@ -17,4 +17,4 @@ class FBR(models.Model):
     datetime = models.DateTimeField(auto_now_add=True, blank=True)
     mobile_number = models.IntegerField(null=True,blank=True)
     description = models.TextField()
-    is_seen = models.BooleanField(default=True)
+    is_seen = models.BooleanField(default=False)

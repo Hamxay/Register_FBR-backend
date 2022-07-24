@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-4uhf(b3wtdy=si^6n^229xdxzv4^h0q^4d$o!s2y9^7ewphp#a
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'drf_yasg',
     'corsheaders',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -59,6 +60,15 @@ MIDDLEWARE = [
 CORS_ORIGIN_ALLOW_ALL = True
 ROOT_URLCONF = 'Register_FBR_backend.urls'
 
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'api_key': {
+            'type': 'apiKey',
+            'in': 'header',
+            'name': 'Authorization'
+        }
+    },
+}
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

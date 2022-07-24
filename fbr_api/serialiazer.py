@@ -16,7 +16,8 @@ class GetUserDetailserializer(serializers.ModelSerializer):
 class AddFRBSerializer(serializers.ModelSerializer):
     class Meta:
         model = FBR
-        fields = ('title', 'description')
+        fields = ('title', 'description','location','district',
+        'police_station','catagory','mobile_number','is_seen')
 
 class IsSeenSerializer(serializers.ModelSerializer):
     class Meta:
@@ -36,7 +37,7 @@ class RegisterCnic(serializers.ModelSerializer):
 class UserDetail(serializers.ModelSerializer):
     class Meta:
         model = RegisterUser
-        fields = '__all__'
+        fields = ('__all__')
 
 from rest_framework import serializers
 from django.contrib.auth.models import User
