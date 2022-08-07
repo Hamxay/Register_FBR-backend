@@ -50,9 +50,7 @@ class GetByCninFBR(ListAPIView):
         try:
             qs = RegisterUser.objects.get(cnic=pk)
             l = []
-            # for i in qs:
             queryset = FBR.objects.filter(user=qs.id)
-            # serializer_class = AllFRBSerializer(queryset)
             print(queryset)
             for fbr in queryset:
                 data = {
@@ -60,11 +58,10 @@ class GetByCninFBR(ListAPIView):
                 "title": fbr.title,
                  }
                 l.append(data)
-            # ser = GetbyCNICSerializer(qs)
             return Response(l, status=status.HTTP_200_OK)
         except Exception as e:
             print(e)
-            return Response({"Error": "unable to get FBR due to some reasons"})
+            return Response({"Error": "unable to get FBR due to some reasons"},status=status.HTTP_400_BAD_REQUEST)
 
 class GetCurrentUserFIR(ListAPIView):
     authentication_classes = [TokenAuthentication]
@@ -75,10 +72,7 @@ class GetCurrentUserFIR(ListAPIView):
     def get(self, request, pk):
         try:
             l = []
-            # user_id = request.user.id
-            # for i in qs:
             queryset = FBR.objects.filter(user=pk)
-            # serializer_class = AllFRBSerializer(queryset)
             print(queryset)
             for fbr in queryset:
                 data = {
@@ -86,7 +80,6 @@ class GetCurrentUserFIR(ListAPIView):
                 "title": fbr.title,
                  }
                 l.append(data)
-            # ser = GetbyCNICSerializer(qs)
             return Response(l, status=status.HTTP_200_OK)
         except Exception as e:
             print(e)
