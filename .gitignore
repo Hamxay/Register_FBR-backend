@@ -131,8 +131,10 @@ dmypy.json
 .pyre/
 
 .DS_Store
-.vscode
 .dccache
 *.zip
 
 tests/
+temp_auto_push.bat
+temp_interactive_push.bat
+.gitignore
